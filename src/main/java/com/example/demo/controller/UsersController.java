@@ -8,10 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
-@Slf4j
+@ControllerAdvice
 @RestController
 @RequestMapping("/v1") //기본경로 /v1/users
 public class UsersController {
@@ -19,8 +18,9 @@ public class UsersController {
     @Autowired
     UsersRepository usersRepository;
 
+    //get과 post같은 경로사용하려면 method 지정해줘야한다
     //유저추가
-    @RequestMapping(value="/users", method=RequestMethod.POST)
+    @PostMapping(value="/users")
     public ResponseEntity<Void>join(@RequestBody Users users){
         Users newUser = usersRepository.save(users);
 
@@ -28,14 +28,28 @@ public class UsersController {
     }
 
     //Like검색
-    @RequestMapping(value="/users", method = RequestMethod.GET)
+    @GetMapping(value="/users")
     public List<Users> findUser(@RequestParam String tel){
-        log.debug("tel- {}", tel);
-        List<Users> result = usersRepository.findByTelContaining(tel);
+            List<Users> result = usersRepository.findByTelContaining(tel);
 
-        return result;
-
+            return result;
     }
+
+
+
+
+
+//
+//    @GetMapping("/usersException")
+//    public void controllerException(){
+//        throw new NullPointerException(); //controller에서 예외발생
+//    }
+//
+//    @ExceptionHandler(Exception.class)
+//    public Object nullex(Exception e){
+//        System.err.println(e.getCause() );
+//        return "myService";
+//    }
 
 }
 
