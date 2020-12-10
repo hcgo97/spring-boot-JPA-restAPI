@@ -18,20 +18,4 @@ public class Users{
 
     private String name;
 
-
-
-/*    @CreationTimestamp
-    private Timestamp createdAt;
-
-    @UpdateTimestamp
-    private Timestamp updateAt;*/
-
-/*
-    @Builder
-    public UsersVO(String email, String tel, String name){
-        this.email = email;
-        this.tel = tel;
-        this.name = name;
-    }*/
-
 }

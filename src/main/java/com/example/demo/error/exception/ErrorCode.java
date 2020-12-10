@@ -8,20 +8,9 @@ public enum ErrorCode {
     // Common
     INVALID_INPUT_VALUE(400, " Invalid Input Value"),
     METHOD_NOT_ALLOWED(405, " Invalid Input Value"),
-    ENTITY_NOT_FOUND(400, " Entity Not Found"),
     INTERNAL_SERVER_ERROR(500, "Server Error"),
-    INVALID_TYPE_VALUE(400, " Invalid Type Value"),
     HANDLE_ACCESS_DENIED(403, "Access is Denied"),
-    NOT_FOUND(404, " No handler found for your request"),
-
-
-    // Member
-    EMAIL_DUPLICATION(400, "Email is Duplication"),
-    LOGIN_INPUT_INVALID(400, "Login input is invalid"),
-
-    // Coupon
-    COUPON_ALREADY_USE(400, "Coupon was already used"),
-    COUPON_EXPIRE(400, "Coupon was already expired");
+    NOT_FOUND(404, " No handler found for your request");
 
 
     private int code;

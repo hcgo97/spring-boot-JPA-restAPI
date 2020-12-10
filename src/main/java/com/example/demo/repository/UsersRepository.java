@@ -9,12 +9,12 @@ import java.util.List;
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Long> {
 
-    public List<Users> findByTelContaining(String tel);
+    List<Users> findByTelContaining(String tel);
 
-    public long countByTelContaining(String tel);
+    long countByTelContaining(String tel);
 
+    int countByTel(String tel);
 
-    public int countByTel(String tel);
+    int countByEmail(String email);
 
-    public int countByEmail(String email);
 }
