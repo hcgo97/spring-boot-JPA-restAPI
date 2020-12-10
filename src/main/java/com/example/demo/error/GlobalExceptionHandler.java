@@ -1,20 +1,28 @@
 package com.example.demo.error;
 
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.demo.error.exception.BusinessException;
 import com.example.demo.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Error;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
-@ControllerAdvice
+@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
@@ -26,7 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("handleMethodArgumentNotValidException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -37,18 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     protected ResponseEntity<ErrorResponse> handleBindException(BindException e) {
         log.error("handleBindException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    /**
-     * enum type 일치하지 않아 binding 못할 경우 발생
-     * 주로 @RequestParam enum으로 binding 못했을 경우 발생
-     */
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-        log.error("handleMethodArgumentTypeMismatchException", e);
-        final ErrorResponse response = ErrorResponse.of(e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -69,7 +66,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
         log.error("handleAccessDeniedException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.HANDLE_ACCESS_DENIED);
-        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getCode()));
     }
 
     @ExceptionHandler(BusinessException.class)
@@ -77,7 +74,7 @@ public class GlobalExceptionHandler {
         log.error("handleEntityNotFoundException", e);
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = ErrorResponse.of(errorCode);
-        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getCode()));
     }
 
 
@@ -87,4 +84,13 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    protected ResponseEntity<ErrorResponse> noHandlerFoundException(NoHandlerFoundException e){
+        log.error("noHandlerFoundException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
 }
