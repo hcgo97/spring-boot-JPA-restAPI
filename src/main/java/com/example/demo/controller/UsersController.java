@@ -50,8 +50,10 @@ public class UsersController {
 
         if(count < 1){
             return responseService.getSearchFailResult();
-        }else{
+        }else if (count == 1) {
             return responseService.getSingleResult(usersRepository.findByTelContaining(tel).get(0));
+        }else{
+            return responseService.getListResult(usersRepository.findByTelContaining(tel));
         }
 
 

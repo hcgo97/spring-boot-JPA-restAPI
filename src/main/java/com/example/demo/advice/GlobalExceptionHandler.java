@@ -2,9 +2,10 @@ package com.example.demo.advice;
 
 import java.nio.file.AccessDeniedException;
 
-import com.example.demo.advice.exception.BusinessException;
-import com.example.demo.advice.exception.CreateException;
-import com.example.demo.advice.exception.ErrorCode;
+import com.example.demo.advice.exception.*;
+import com.example.demo.response.CommonResult;
+import com.example.demo.service.ResponseService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +13,19 @@ import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.servlet.http.HttpServletRequest;
+
+
+@RequiredArgsConstructor
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    private final ResponseService responseService;
 
     /**
      * javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.
@@ -84,6 +92,31 @@ public class GlobalExceptionHandler {
         log.error("noHandlerFoundException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+
+    //번호중복
+    @ExceptionHandler(TelDuplicateException.class) //(괄호안에 적용할 클래스)
+    @ResponseStatus(HttpStatus.OK)
+    protected CommonResult telNotFoundException(HttpServletRequest Request, TelDuplicateException e){
+
+        return responseService.getTelFailResult(); //미리정의된것중에 괄호안에있는거 젤먼저찾아서바꿈
+    }
+
+    //이메일중복
+    @ExceptionHandler(EmailDuplicateException.class) //(괄호안에 적용할 클래스)
+    @ResponseStatus(HttpStatus.OK)
+    protected CommonResult emailNotFoundException(HttpServletRequest Request, TelDuplicateException e){
+
+        return responseService.getEmailFailResult(); //미리정의된것중에 괄호안에있는거 젤먼저찾아서바꿈
+    }
+
+    //검색실패
+    @ExceptionHandler(TelNotFoundException.class) //(괄호안에 적용할 클래스)
+    @ResponseStatus(HttpStatus.OK)
+    protected CommonResult telNotFoundException(HttpServletRequest Request, TelNotFoundException e){
+
+        return responseService.getSearchFailResult(); //미리정의된것중에 괄호안에있는거 젤먼저찾아서바꿈
     }
 
 

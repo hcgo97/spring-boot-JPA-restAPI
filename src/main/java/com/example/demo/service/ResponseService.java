@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.response.CommonResult;
+import com.example.demo.response.ListResult;
 import com.example.demo.response.SingleResult;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,11 @@ public class ResponseService {
 
     public enum CommonResponse{
         SUCCESS(200, "성공"),
-        FAIL(200, "실패"),
-        CREATE(201, "성공");
+        FAIL(404, "실패"),
+        CREATE(201, "성공"),
+        SEARCH_FAIL(404, "검색에 실패했습니다."),
+        DUPLICATE_EMAIL(404, "중복된 이메일입니다."),
+        DUPLICATE_TEL(404, "중복된 전화번호입니다.");
 
         int code;
         String message;
@@ -48,8 +52,8 @@ public class ResponseService {
     public CommonResult getSearchFailResult(){
         CommonResult result = new CommonResult();
 
-        result.setCode(CommonResponse.FAIL.getCode());
-        result.setMessage("검색에 실패했습니다.");
+        result.setCode(CommonResponse.SEARCH_FAIL.getCode());
+        result.setMessage(CommonResponse.SEARCH_FAIL.getMessage());
 
         return result;
     }
@@ -59,8 +63,8 @@ public class ResponseService {
     public CommonResult getTelFailResult(){
         CommonResult result = new CommonResult();
 
-        result.setCode(CommonResponse.FAIL.getCode());
-        result.setMessage("중복된 번호입니다.");
+        result.setCode(CommonResponse.DUPLICATE_TEL.getCode());
+        result.setMessage(CommonResponse.DUPLICATE_TEL.getMessage());
 
         return result;
     }
@@ -68,8 +72,8 @@ public class ResponseService {
     public CommonResult getEmailFailResult(){
         CommonResult result = new CommonResult();
 
-        result.setCode(CommonResponse.FAIL.getCode());
-        result.setMessage("중복된 이메일입니다.");
+        result.setCode(CommonResponse.DUPLICATE_EMAIL.getCode());
+        result.setMessage(CommonResponse.DUPLICATE_EMAIL.getMessage());
 
         return result;
     }
@@ -82,6 +86,20 @@ public class ResponseService {
         SingleResult<T> result = new SingleResult<>();
 
         result.setData(data);
+        setSuccessResult(result);
+
+        return result;
+
+    }
+
+
+    // 다중건 결과를 처리하는 메소드
+
+    public <T> ListResult<T> getListResult(List<T> list) {
+
+        ListResult<T> result = new ListResult<>();
+
+        result.setList(list);
         setSuccessResult(result);
 
         return result;
