@@ -2,12 +2,12 @@ package com.example.demo.advice.exception;
 
 public class CreateException extends RuntimeException{
 
-    public CreateException(String msg, Throwable t){
-        super(msg, t);
+    public CreateException(String message, Throwable t){
+        super(message, t);
     }
 
-    public CreateException(String msg){
-        super(msg);
+    public CreateException(String message){
+        super(message);
     }
 
     public CreateException(){

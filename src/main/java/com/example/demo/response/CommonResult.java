@@ -6,6 +6,6 @@ import lombok.Data;
 public class CommonResult {
 
     private int code;
-    private String msg;
+    private String message;
 
 }

@@ -15,20 +15,20 @@ public class ResponseService {
         CREATE(201, "성공");
 
         int code;
-        String msg;
+        String message;
 
 
-        CommonResponse(int code, String msg){
+        CommonResponse(int code, String message){
             this.code = code;
-            this.msg = msg;
+            this.message = message;
         }
 
         public int getCode(){
             return code;
         }
 
-        public String getMsg(){
-            return msg;
+        public String getMessage(){
+            return message;
         }
     }
 
@@ -38,7 +38,7 @@ public class ResponseService {
         CommonResult result = new CommonResult();
 
         result.setCode(CommonResponse.FAIL.getCode());
-        result.setMsg(CommonResponse.FAIL.getMsg());
+        result.setMessage(CommonResponse.FAIL.getMessage());
 
         return result;
     }
@@ -49,7 +49,7 @@ public class ResponseService {
         CommonResult result = new CommonResult();
 
         result.setCode(CommonResponse.FAIL.getCode());
-        result.setMsg("검색에 실패했습니다.");
+        result.setMessage("검색에 실패했습니다.");
 
         return result;
     }
@@ -60,7 +60,7 @@ public class ResponseService {
         CommonResult result = new CommonResult();
 
         result.setCode(CommonResponse.FAIL.getCode());
-        result.setMsg("중복된 번호입니다.");
+        result.setMessage("중복된 번호입니다.");
 
         return result;
     }
@@ -69,7 +69,7 @@ public class ResponseService {
         CommonResult result = new CommonResult();
 
         result.setCode(CommonResponse.FAIL.getCode());
-        result.setMsg("중복된 이메일입니다.");
+        result.setMessage("중복된 이메일입니다.");
 
         return result;
     }
@@ -103,7 +103,7 @@ public class ResponseService {
     private void setSuccessResult(CommonResult result) {
 
         result.setCode(CommonResponse.SUCCESS.getCode());
-        result.setMsg(CommonResponse.SUCCESS.getMsg());
+        result.setMessage(CommonResponse.SUCCESS.getMessage());
 
     }
 
@@ -123,7 +123,7 @@ public class ResponseService {
     private void setCreateResult(CommonResult result) {
 
         result.setCode(CommonResponse.CREATE.getCode());
-        result.setMsg(CommonResponse.CREATE.getMsg());
+        result.setMessage(CommonResponse.CREATE.getMessage());
     }
 
 

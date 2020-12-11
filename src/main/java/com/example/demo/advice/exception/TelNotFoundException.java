@@ -2,12 +2,12 @@ package com.example.demo.advice.exception;
 
 public class TelNotFoundException extends RuntimeException{
 
-    public TelNotFoundException(String msg, Throwable t){
-        super(msg, t);
+    public TelNotFoundException(String message, Throwable t){
+        super(message, t);
     }
 
-    public TelNotFoundException(String msg){
-        super(msg);
+    public TelNotFoundException(String message){
+        super(message);
     }
 
     public TelNotFoundException(){
