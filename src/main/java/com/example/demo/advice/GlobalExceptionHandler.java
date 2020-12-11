@@ -1,9 +1,10 @@
-package com.example.demo.error;
+package com.example.demo.advice;
 
 import java.nio.file.AccessDeniedException;
 
-import com.example.demo.error.exception.BusinessException;
-import com.example.demo.error.exception.ErrorCode;
+import com.example.demo.advice.exception.BusinessException;
+import com.example.demo.advice.exception.CreateException;
+import com.example.demo.advice.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -84,5 +85,6 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
 
 }

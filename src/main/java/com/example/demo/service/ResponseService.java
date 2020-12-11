@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Users;
-import com.example.demo.repository.UsersRepository;
 import com.example.demo.response.CommonResult;
 import com.example.demo.response.SingleResult;
 import org.springframework.stereotype.Service;
@@ -12,8 +10,9 @@ import java.util.List;
 public class ResponseService {
 
     public enum CommonResponse{
-        SUCCESS(1, "성공"),
-        FAIL(-1, "실패");
+        SUCCESS(200, "성공"),
+        FAIL(200, "실패"),
+        CREATE(201, "성공");
 
         int code;
         String msg;
@@ -34,12 +33,43 @@ public class ResponseService {
     }
 
 
-    //검색실패결과처리
+    //일반실패결과처리
     public CommonResult getFailResult(){
         CommonResult result = new CommonResult();
 
         result.setCode(CommonResponse.FAIL.getCode());
         result.setMsg(CommonResponse.FAIL.getMsg());
+
+        return result;
+    }
+
+
+    //검색실패 커스텀
+    public CommonResult getSearchFailResult(){
+        CommonResult result = new CommonResult();
+
+        result.setCode(CommonResponse.FAIL.getCode());
+        result.setMsg("검색에 실패했습니다.");
+
+        return result;
+    }
+
+
+    //중복체크 커스텀
+    public CommonResult getTelFailResult(){
+        CommonResult result = new CommonResult();
+
+        result.setCode(CommonResponse.FAIL.getCode());
+        result.setMsg("중복된 번호입니다.");
+
+        return result;
+    }
+
+    public CommonResult getEmailFailResult(){
+        CommonResult result = new CommonResult();
+
+        result.setCode(CommonResponse.FAIL.getCode());
+        result.setMsg("중복된 이메일입니다.");
 
         return result;
     }
@@ -75,6 +105,25 @@ public class ResponseService {
         result.setCode(CommonResponse.SUCCESS.getCode());
         result.setMsg(CommonResponse.SUCCESS.getMsg());
 
+    }
+
+
+
+
+
+    //CREATE(201) 커스텀
+    public CommonResult createSuccessResult(){
+
+        CommonResult result = new CommonResult();
+        setCreateResult(result);
+
+        return result;
+    }
+
+    private void setCreateResult(CommonResult result) {
+
+        result.setCode(CommonResponse.CREATE.getCode());
+        result.setMsg(CommonResponse.CREATE.getMsg());
     }
 
 

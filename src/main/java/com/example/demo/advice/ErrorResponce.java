@@ -1,6 +1,6 @@
-package com.example.demo.error;
+package com.example.demo.advice;
 
-import com.example.demo.error.exception.ErrorCode;
+import com.example.demo.advice.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
