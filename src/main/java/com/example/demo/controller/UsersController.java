@@ -2,6 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.Users;
 import com.example.demo.repository.UsersRepository;
+import com.example.demo.response.CommonResult;
+import com.example.demo.response.SingleResult;
+import com.example.demo.service.ResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/v1") //기본경로 /v1/users
 public class UsersController {
 
     @Autowired
     UsersRepository usersRepository;
+    @Autowired
+    ResponseService responseService;
 
 
     //유저추가
@@ -25,33 +31,29 @@ public class UsersController {
         int emailCount = usersRepository.countByEmail(users.getEmail());
 
         //db안에 tel이나 email값이 하나라도 존재하면
-        if(telCount > 0){
-            String msg = "중복된 전화번호입니다.";
-            return msg;
-
-        }else if(emailCount > 0){
-            String msg = "중복된 이메일입니다.";
-            return msg;
+        if(telCount > 0 || emailCount > 0){
+            return responseService.getFailResult();
         }else{
             usersRepository.save(users);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+
+            return new ResponseEntity<>(responseService.getSuccessResult(),(HttpStatus.CREATED));
         }
     }
 
 
     //Like검색
     @GetMapping(value="/users")
-    public Object findUser(@RequestParam String tel){
+    public CommonResult findUser(@RequestParam String tel){
 
-            List<Users> result = usersRepository.findByTelContaining(tel);
-            long count = usersRepository.countByTelContaining(tel);
+        int count = (int) usersRepository.countByTelContaining(tel);
 
-            if(count < 1){
-                String msg = "검색 결과가 없습니다.";
-                return msg;
-            } else{
-                return result;
-            }
+        if(count < 1){
+            return responseService.getFailResult();
+        }else{
+            return responseService.getSingleResult(usersRepository.findByTelContaining(tel).get(0));
+        }
+
+
     }
 
 }

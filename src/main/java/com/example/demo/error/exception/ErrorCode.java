@@ -22,13 +22,12 @@ public enum ErrorCode {
         this.message = message;
     }
 
-    public String getMessage() {
-        return this.message;
-    }
-
     public int getCode() {
         return code;
     }
 
+    public String getMessage() {
+        return this.message;
+    }
 
 }
