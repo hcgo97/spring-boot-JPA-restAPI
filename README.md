@@ -13,7 +13,4 @@
   
   -> JPA findByTelContaining(String tel)
   
-### GlobalExceptionHandler
-  -> status code 정의
-  
-  -> Custom Exception 
+### Custom Exception
