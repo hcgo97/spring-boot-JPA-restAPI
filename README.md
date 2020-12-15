@@ -13,7 +13,7 @@
   
     -> JPA findByTelContaining(String tel)
   
-### # Custom Exception
-    -> Custom Exception 
+### # Error Handling
+    -> custom Exception
   
     -> enum type 으로 ErrorCode 정의
