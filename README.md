@@ -10,3 +10,7 @@
 ### findUser (전화번호로 유저검색)
   -> GET Method 활용한 유저검색 기능
   -> JPA findByTelContaining(String tel)
+  
+### GlobalExceptionHandler
+  -> status code 정의
+  -> Custom Exception 
