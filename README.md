@@ -15,4 +15,5 @@
   
 ### Custom Exception
   -> Custom Exception 
-  -> enum type 으로 ErrorCode 
+  
+  -> enum type 으로 ErrorCode 정의
